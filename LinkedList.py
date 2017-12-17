@@ -1,5 +1,4 @@
 import time
-import os
 
 
 class Node:
@@ -103,9 +102,43 @@ class LinkedList:
             if n.service_name == item:
                 return n
 
-    def delete(self, service_name, agency_name):
+    def general_delete(self, service_name):
+        current = self.root
+        is_found = False
+
+        while current.next is not None:
+            if current.next.service_name == service_name:
+                is_found = True
+                break
+
+            current = current.next
+
+        if is_found:
+            k = []
+            for node in save:
+                if node in self.child(service_name):
+                    k.append(node)
+
+            for ks in k:
+                save.remove(ks)
+            current.next = current.next.next
+
+    def in_agencies(self, service_name):
+        provided = 0
+
+        for a in save:
+            if service_name in a.next_list:
+                provided += 1
+
+        return provided
+
+    def delete(self, service_name, agency_name, services_list):
         if self.is_empty():
-            print('There is nothing to delete!', end='')
+            print('There is nothing to delete!')
+            return
+
+        if self.search3(agency_name) is None:
+            print('There is no such agency!')
             return
 
         current = self.root
@@ -116,11 +149,22 @@ class LinkedList:
         if service_name in current.next_list:
             current.next_list.remove(service_name)
 
+            if self.in_agencies(service_name) == 0:
+                services_list.general_delete(service_name)
+
         else:
             print('There is no such service!')
 
     def add_offer(self, service_name, agency_name):
         current = self.root
+
+        if self.search3(agency_name) is None:
+            print('There is no such agency!')
+            return
+
+        if self.search3(service_name) is None:
+            print('There is no such service!')
+            return
 
         while current.service_name != agency_name:
             current = current.next
@@ -136,7 +180,7 @@ class LinkedList:
 
     def list_agencies(self):
         if self.is_empty():
-            print('There are no agencies yet!', end='')
+            print('There are no agencies yet!')
             return
 
         current = self.root
@@ -251,7 +295,7 @@ class LinkedList:
         return res
 
     # noinspection PyTypeChecker
-    def order(self, service_name, agency_name, customer_name, immediacy_level):
+    def order(self, service_name, agency_name, customer_name, immediacy_level, car_model=None):
         agency = self.search3(agency_name)
 
         if agency is None:
@@ -261,7 +305,7 @@ class LinkedList:
             searching = self.child(se)
             for n in searching:
                 if service_name == n.service_name:
-                    temp = HeapNode(service_name, immediacy_level, customer_name, agency_name)
+                    temp = HeapNode(service_name, immediacy_level, customer_name, agency_name, car_model)
 
                     if immediacy_level == 'high':
                         agency.heap1.__add__(temp)
@@ -278,9 +322,9 @@ class LinkedList:
                     else:
                         print('Wrong priority level!\nFollow the instruction.')
             searching.clear()
-                #
-                # else:
-                #     print('This agency do not have your required service!')
+            #
+            # else:
+            #     print('This agency do not have your required service!')
 
     def list_orders(self, agency_name):
         agency = self.search3(agency_name)
@@ -302,18 +346,26 @@ class LinkedList:
 
 
 class HeapNode:
-    def __init__(self, service_name, priority_level, customer_name, agency_name):
+    def __init__(self, service_name, priority_level, customer_name, agency_name, car_model=None):
         self.service = service_name
         self.customer = customer_name
         self.agency = agency_name
         self.priority = priority_level
+        self.car = car_model
+
         self.real_time = time.ctime().split()[3]
 
         self.time = time.time() * -1
 
     def __str__(self):
-        print('- Customer "{}" has requested service "{}" from agency "{}" with "{}" priority in "{}"'.format(
-            self.customer, self.service, self.agency, self.priority, self.real_time))
+        if self.car is None:
+            print('- Customer "{}" has requested service "{}" from agency "{}" with "{}" priority in "{}"'.format(
+                self.customer, self.service, self.agency, self.priority, self.real_time))
+
+        else:
+            print(
+                '- Customer "{}" has requested service "{}" for car "{}" from agency "{}" with "{}" priority in "{}"'.format(
+                    self.customer, self.service, self.car, self.agency, self.priority, self.real_time))
 
 
 class MaxHeap:
@@ -380,34 +432,54 @@ if __name__ == '__main__':
     agencies = LinkedList()
     services = LinkedList()
 
-    print(45 * '-')
+    print(45 * '*')
+    print('\t\tWelcome to parsa\'s car agency!'.upper())
+    print(45 * '*')
     print('Note1: Type "EXIT" when you wanted to quit.')
     print(45 * '-')
     print('Note2: Type "HELP" for allowed commands.')
     print(45 * '-')
-
     while True:
         inp = input('Enter a command: ').split()
 
-        if inp[0] == 'EXIT':
+        if len(inp) == 0:
+            print('No command entered!')
+
+        elif inp[0] == 'EXIT':
             break
 
-        elif inp[0] == 'CLEAR':
-            clear = lambda: os.system('clear')
+        elif inp[0] == 'free':
+            pass
+            # agencies.add_agency('a1')
+            # agencies.add_agency('a2')
+            # agencies.add_agency('a3')
+            #
+            # services.add_service('s1')
+            # services.add_service('s2')
+            # services.add_service('s3')
+            #
+            # services.add_subservice3('s11', 's1')
+            # services.add_subservice3('s21', 's2')
+            #
+            # agencies.add_offer('s1', 'a1')
+            # agencies.add_offer('s2', 'a1')
+            # agencies.add_offer('s1', 'a2')
 
         elif inp[0] == 'HELP':
             print(45 * '-')
             print('1. add an agency : \n\t>>> add agency <agency_name>\n', 45 * '-')
             print('2. add a service : \n\t>>> add agency <service_name>\n', 45 * '-')
-            print('3. add a subservice to a service : \n\t>>> add subservice <subservice_name> to <service_name>\n', 45 * '-')
+            print('3. add a subservice to a service : \n\t>>> add subservice <subservice_name> to <service_name>\n',
+                  45 * '-')
             print('4. add a service to an agency : \n\t>>> add offer <service_name> to <agency_name>\n', 45 * '-')
             print('5. list all available services : \n\t>>> list services\n', 45 * '-')
-            print('6. list all services of a particular service : \n\t>>> list services from <service_name>\n', 45 * '-')
+            print('6. list all services of a particular service : \n\t>>> list services from <service_name>\n',
+                  45 * '-')
             print('7. list all agencies : \n\t>>> list agencies\n', 45 * '-')
             print('8. list all requests from an agency : \n\t>>> list orders of <agency_name>\n', 45 * '-')
             print('9. delete a service from an agency : \n\t>>> delete <service_name> from <agency_name>\n', 45 * '-')
-            print('10. send a request for a service from an agency : \n\t>>> order <service_name> from <agency_name> by '
-                  '<customer_name> with <immediacy_level> priority\n', 45 * '-')
+            print('10. send a request for a service from an agency : \n\t>>> order <service_name> from <agency_name> by'
+                  ' <customer_name> with <immediacy_level> priority\n', 45 * '-')
             print('11. priority levels; choose one of them for sending request :\n\t1. high\n\t2. normal\n\t3. low')
 
         elif inp[0] == 'add':
@@ -440,7 +512,7 @@ if __name__ == '__main__':
 
         elif inp[0] == 'delete':
             try:
-                agencies.delete(inp[1], inp[3])
+                agencies.delete(inp[1], inp[3], services)
             except:
                 print('Wrong command!\nCheck out the instruction with "HELP" command.')
 
