@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#/home/parsa/PycharmProjects/DsProject/DSProject1.py</OriginalElement>
+  <nodes>
+    <node x="-3024.9999999999977" y="-406.333333333333">_collections_abc.Sized</node>
+    <node x="-1020.9999999999977" y="36.66666666666708">DSProject1.HeapNode</node>
+    <node x="-2142.2499999999977" y="-728.333333333333">_collections_abc.Hashable</node>
+    <node x="-2211.9999999999977" y="-7.3333333333329165">DSProject1.Node</node>
+    <node x="-2298.7499999999977" y="-582.333333333333">object</node>
+    <node x="-2737.9999999999977" y="-84.33333333333292">DSProject1.LinkedList</node>
+    <node x="-3003.9999999999977" y="58.66666666666708">DSProject1.MaxHeap</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="object" target="_collections_abc.Hashable">
+      <point x="0.0" y="-224.0" />
+      <point x="0.0" y="48.0" />
+    </edge>
+    <edge source="DSProject1.LinkedList" target="object">
+      <point x="0.0" y="-235.0" />
+      <point x="-2484.9999999999977" y="-104.33333333333292" />
+      <point x="-2116.4999999999977" y="-104.33333333333292" />
+      <point x="-60.75" y="224.0" />
+    </edge>
+    <edge source="DSProject1.MaxHeap" target="object">
+      <point x="61.5" y="-92.0" />
+      <point x="-2819.4999999999977" y="-114.33333333333292" />
+      <point x="-2237.9999999999977" y="-114.33333333333292" />
+      <point x="-182.25" y="224.0" />
+    </edge>
+    <edge source="DSProject1.MaxHeap" target="_collections_abc.Sized">
+      <point x="-61.5" y="-92.0" />
+      <point x="0.0" y="48.0" />
+    </edge>
+    <edge source="DSProject1.HeapNode" target="object">
+      <point x="0.0" y="-114.0" />
+      <point x="-660.4999999999977" y="-114.33333333333292" />
+      <point x="-1873.4999999999977" y="-114.33333333333292" />
+      <point x="182.25" y="224.0" />
+    </edge>
+    <edge source="DSProject1.Node" target="object">
+      <point x="0.0" y="-158.0" />
+      <point x="-1626.4999999999977" y="-104.33333333333292" />
+      <point x="-1994.9999999999977" y="-104.33333333333292" />
+      <point x="60.75" y="224.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.40000000000000013" x="-1783.7500000000005" y="-6.500000000000227" />
+  <SelectedNodes>
+    <node>DSProject1.MaxHeap</node>
+    <node>_collections_abc.Sized</node>
+    <node>DSProject1.HeapNode</node>
+    <node>_collections_abc.Hashable</node>
+    <node>DSProject1.Node</node>
+    <node>DSProject1.LinkedList</node>
+    <node>object</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+</Diagram>
+
