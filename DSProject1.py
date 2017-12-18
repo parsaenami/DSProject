@@ -106,12 +106,29 @@ class LinkedList:
         current = self.root
         is_found = False
 
-        while current.next is not None:
-            if current.next.service_name == service_name:
+        if current.service_name == service_name:
+            if current.next is not None:
+                self.root, current = current.next, self.root
                 is_found = True
-                break
 
-            current = current.next
+            else:
+                k = []
+                for node in save:
+                    if node in self.child(service_name):
+                        k.append(node)
+
+                for ks in k:
+                    save.remove(ks)
+
+                self.root = None
+                return
+        else:
+            while current.next is not None:
+                if current.next.service_name == service_name:
+                    is_found = True
+                    break
+
+                current = current.next
 
         if is_found:
             k = []
@@ -220,6 +237,10 @@ class LinkedList:
                 current = current.next
 
         else:
+            if self.search3(service_name) is None:
+                print('There is no such service!')
+                return
+
             current = self.search3(service_name)
             self.root = current
 
@@ -297,14 +318,17 @@ class LinkedList:
     # noinspection PyTypeChecker
     def order(self, service_name, agency_name, customer_name, immediacy_level, car_model=None):
         agency = self.search3(agency_name)
+        is_found = False
 
         if agency is None:
             print('There is no such agency!')
+            return
 
         for se in agency.next_list:
             searching = self.child(se)
             for n in searching:
                 if service_name == n.service_name:
+                    is_found = True
                     temp = HeapNode(service_name, immediacy_level, customer_name, agency_name, car_model)
 
                     if immediacy_level == 'high':
@@ -321,10 +345,15 @@ class LinkedList:
 
                     else:
                         print('Wrong priority level!\nFollow the instruction.')
+                        # searching.clear()
+
+                        # else:
+                        #     print('This agency do not have your required service!')
+
             searching.clear()
-            #
-            # else:
-            #     print('This agency do not have your required service!')
+
+        if not is_found:
+            print('This agency do not have your required service!')
 
     def list_orders(self, agency_name):
         agency = self.search3(agency_name)
@@ -412,7 +441,7 @@ class MaxHeap:
             lc = 2 * index + 1
             hl = self.__len__()
 
-            if hl > rc - 1:
+            if hl > rc:
                 r, l, p = self.data[rc].time, self.data[lc].time, self.data[index].time
 
                 if p > r and p > l:
