@@ -477,23 +477,6 @@ if __name__ == '__main__':
         elif inp[0] == 'EXIT':
             break
 
-        elif inp[0] == 'free':
-            pass
-            # agencies.add_agency('a1')
-            # agencies.add_agency('a2')
-            # agencies.add_agency('a3')
-            #
-            # services.add_service('s1')
-            # services.add_service('s2')
-            # services.add_service('s3')
-            #
-            # services.add_subservice3('s11', 's1')
-            # services.add_subservice3('s21', 's2')
-            #
-            # agencies.add_offer('s1', 'a1')
-            # agencies.add_offer('s2', 'a1')
-            # agencies.add_offer('s1', 'a2')
-
         elif inp[0] == 'HELP':
             print(45 * '-')
             print('1. add an agency : \n\t>>> add agency <agency_name>\n', 45 * '-')
